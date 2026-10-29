@@ -1,0 +1,19 @@
+name: Fetch Fuel Data
+on:
+  workflow_dispatch:
+
+jobs:
+  get-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Registry
+        run: curl -sL "https://www.mimit.gov.it/images/exportcsv/anagrafica_impianti_kml.csv" -o stations.csv
+        
+      - name: Download Prices
+        run: curl -sL "https://www.mimit.gov.it/images/exportcsv/prezzi_praticati_oggi.csv" -o prices.csv
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: fuel-data
+          path: '*.csv'
